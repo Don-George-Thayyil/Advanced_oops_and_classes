@@ -8,30 +8,46 @@ class Time_interval:
         return "{} : {} : {}".format(self.hours, self.minutes, self.seconds)
     
     def __add__(self, other):
-        self.seconds = self.seconds + other.seconds
-        if self.seconds > 59:
-            self.minutes += 1
-            self.seconds = self.seconds % 60
-        self.minutes = self.minutes + other.minutes
-        if self.minutes > 59:
-            self.hours += 1
-            self.minutes = self.minutes % 60
-        self.hours += other.hours
-        
-        return "{} : {} : {}".format(self.hours, self.minutes, self.seconds)
+        try:
+            if isinstance(other,int):
+                self.seconds = self.seconds + other
+            else:
+                self.seconds = self.seconds + other.seconds
+            if self.seconds > 59:
+                self.minutes = self.seconds // 60
+                self.seconds = self.seconds % 60
+            if isinstance(other,Time_interval):
+                self.minutes = self.minutes + other.minutes
+            if self.minutes > 59:
+                self.hours += 1
+                self.minutes = self.minutes % 60
+            if isinstance(other,Time_interval):
+                self.hours += other.hours
+                
+            return "{} : {} : {}".format(self.hours, self.minutes, self.seconds)
+        except:
+            return "Need timeinterval object to add"
     
     def __sub__(self, other):
-        self.seconds = self.seconds - other.seconds
-        if self.seconds < 0:
-            self.minutes -= 1
-            self.seconds = self.seconds % 60
-        self.minutes = self.minutes - other.minutes
-        if self.minutes < 0:
-            self.hours -= 1
-            self.minutes = self.minutes % 60
-        self.hours -= other.hours
-        
-        return "{} : {} : {}".format(self.hours, self.minutes, self.seconds)
+        try:            
+            if isinstance(other,int):
+                self.seconds -= other
+            else:
+                self.seconds = self.seconds - other.seconds
+            if self.seconds < 0:
+                self.minutes = self.seconds // 60
+                self.seconds = self.seconds % 60
+            if isinstance(other, Time_interval):
+                self.minutes = self.minutes - other.minutes
+            if self.minutes < 0:
+                self.hours -= 1
+                self.minutes = self.minutes % 60
+            if isinstance(other, Time_interval):
+                self.hours -= other.hours
+            
+            return "{} : {} : {}".format(self.hours, self.minutes, self.seconds)
+        except:
+            return "Need timeinterval object to add"
 
     def __mul__(self, integer):
         self.seconds = self.seconds * integer
@@ -46,7 +62,12 @@ class Time_interval:
 
         return "{} : {} : {}".format(self.hours, self.minutes, self.seconds)
 
-interval1 = Time_interval(24,00,00)
-interval2 = Time_interval(1,30,30)
-
-print(interval1-interval2)
+if __name__ == "__main__":
+    interval1 = Time_interval(24,00,00)
+    interval2 = Time_interval(1,30,30)
+    print("interval1 =",interval1,", interval2 =", interval2)
+    print(interval1 + interval2)
+    print(interval1 + 200)
+    print(interval1 - 30)
+    print(interval1 - interval2)
+    print(interval1 * 2)
