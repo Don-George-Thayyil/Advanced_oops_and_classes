@@ -50,17 +50,19 @@ class Time_interval:
             return "Need timeinterval object to add"
 
     def __mul__(self, integer):
-        self.seconds = self.seconds * integer
-        if self.seconds > 0:
-            self.minutes += self.seconds // 60
-            self.seconds = self.seconds % 60
-        self.minutes = self.minutes * integer
-        if self.minutes > 0:
-            self.hours += self.minutes // 60
-            self.minutes = self.minutes % 60
-        self.hours *= integer
-
-        return "{} : {} : {}".format(self.hours, self.minutes, self.seconds)
+        try:
+            self.seconds = self.seconds * integer
+            if self.seconds > 0:
+                self.minutes += self.seconds // 60
+                self.seconds = self.seconds % 60
+            self.minutes = self.minutes * integer
+            if self.minutes > 0:
+                self.hours += self.minutes // 60
+                self.minutes = self.minutes % 60
+            self.hours *= integer
+            return "{} : {} : {}".format(self.hours, self.minutes, self.seconds)
+        except:
+            return "Unknown function"
 
 if __name__ == "__main__":
     interval1 = Time_interval(24,00,00)
